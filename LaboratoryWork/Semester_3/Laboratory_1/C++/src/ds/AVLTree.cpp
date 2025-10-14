@@ -18,19 +18,29 @@ AVLNode* AVLTree::Find(AVLNode* root, int k) {
 }
 
 AVLNode* AVLTree::Push(AVLNode* root, int k) {
-    if (!root) return new AVLNode(k);
+    if (!root) {
+        return new AVLNode(k);
+    }
 
-    if (k < root->key) root->left = Push(root->left, k);
-    else if (k > root->key) root->right = Push(root->right, k);
-    else return root;
+    if (k < root->key) {
+        root->left = Push(root->left, k);
+    } else if (k > root->key) {
+        root->right = Push(root->right, k);
+    } else {
+        return root;
+    }
 
     root->height = 1 + max(GetHeight(root->left), GetHeight(root->right));
     int balance = GetBalance(root);
 
     // Left Left
-    if (balance > 1 && k < root->left->key) return RightRotate(root);
+    if (balance > 1 && k < root->left->key) {
+        return RightRotate(root);
+    }
     // Right Right
-    if (balance < -1 && k > root->right->key) return LeftRotate(root);
+    if (balance < -1 && k > root->right->key) {
+        return LeftRotate(root);
+    }
     // Left Right
     if (balance > 1 && k > root->left->key) {
         root->left = LeftRotate(root->left);
@@ -46,10 +56,16 @@ AVLNode* AVLTree::Push(AVLNode* root, int k) {
 }
 
 AVLNode* AVLTree::DelElm(AVLNode* root, int k) {
-    if (!root) return root;
+    if (!root) {
+        return root;
+    }
 
-    if (k < root->key) root->left = DelElm(root->left, k);
-    else if (k > root->key) root->right = DelElm(root->right, k);
+    if (k < root->key) {
+        root->left = DelElm(root->left, k);
+    }
+    else if (k > root->key) {
+        root->right = DelElm(root->right, k);
+    }
     else {
         if (!root->left || !root->right) {
             AVLNode* childNode = root->left ? root->left : root->right;
@@ -68,20 +84,26 @@ AVLNode* AVLTree::DelElm(AVLNode* root, int k) {
         }
     }
 
-    if (!root) return root;
+    if (!root) {
+        return root;
+    }
 
     root->height = 1 + max(GetHeight(root->left), GetHeight(root->right));
     int balance = GetBalance(root);
 
     // Left Left
-    if (balance > 1 && GetBalance(root->left) >= 0) return RightRotate(root);
+    if (balance > 1 && GetBalance(root->left) >= 0) {
+        return RightRotate(root);
+    }
     // Left Right
     if (balance > 1 && GetBalance(root->left) < 0) {
         root->left = LeftRotate(root->left);
         return RightRotate(root);
     }
     // Right Right
-    if (balance < -1 && GetBalance(root->right) <= 0) return LeftRotate(root);
+    if (balance < -1 && GetBalance(root->right) <= 0) {
+        return LeftRotate(root);
+    }
     // Right Left
     if (balance < -1 && GetBalance(root->right) > 0) {
         root->right = RightRotate(root->right);
