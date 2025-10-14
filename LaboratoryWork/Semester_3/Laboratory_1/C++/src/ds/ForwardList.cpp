@@ -70,31 +70,6 @@ void ForwardList::InsertAfter(string obj, int pos) {
     throw invalid_argument("InsertAfter: invalid index!");
 }
 
-void ForwardList::DelElm(string obj) {
-    if (!head) {
-        return;
-    }
-
-    if (head->data == obj) {
-        ForwardNode* nextNode = head->next;
-        delete head;
-        head = nextNode;
-        return;
-    }
-
-    ForwardNode* currentNode = head;
-    while (currentNode->next) {
-        if (currentNode->next->data == obj) {
-            ForwardNode* nextNode = currentNode->next;
-            currentNode->next = currentNode->next->next;
-            delete nextNode;
-            return;
-        }
-        currentNode = currentNode->next;
-    }
-    throw invalid_argument("Remove: element not found!");
-}
-
 int ForwardList::Find(string obj) {
     ForwardNode* currentNode = head;
     int currentPos = 0;
@@ -106,6 +81,114 @@ int ForwardList::Find(string obj) {
         currentNode = currentNode->next;
     }
     return -1;
+}
+
+void ForwardList::DelHead() {
+    if (!head) {
+        throw invalid_argument("DelHead: list is empty!");
+    }
+
+    ForwardNode* prevHead = head;
+    head = head->next;
+    delete prevHead;
+}
+
+void ForwardList::DelTail() {
+    if (!head) {
+        throw invalid_argument("DelTail: list is empty!");
+    }
+
+    if (!head->next) {
+        delete head;
+        head = nullptr;
+        return;
+    }
+
+    ForwardNode* currentNode = head;
+    while (currentNode->next->next) {
+        currentNode = currentNode->next;
+    }
+
+    delete currentNode->next;
+    currentNode->next = nullptr;
+}
+
+void ForwardList::DelBefore(int pos) {
+    if (pos <= 0) {
+        throw invalid_argument("DelBefore: invalid position!");
+    }
+    if (!head || !head->next) {
+        throw invalid_argument("DelBefore: list too short!");
+    }
+
+    if (pos == 1) {
+        DelHead();
+        return;
+    }
+
+    ForwardNode* currentNode = head;
+    int currentPos = 0;
+    while (currentNode->next && currentNode->next->next) {
+        if (currentPos == pos - 2) {
+            ForwardNode* temp = currentNode->next;
+            currentNode->next = temp->next;
+            delete temp;
+            return;
+        }
+        currentNode = currentNode->next;
+        currentPos++;
+    }
+    throw invalid_argument("DelBefore: invalid index!");
+}
+
+void ForwardList::DelAfter(int pos) {
+    if (!head) {
+        throw invalid_argument("DelAfter: list is empty!");
+    }
+
+    ForwardNode* currentNode = head;
+    int currentPos = 0;
+
+    while (currentNode) {
+        if (currentPos == pos) {
+            if (!currentNode->next) {
+                throw invalid_argument("DelAfter: no element after given position!");
+            }
+            ForwardNode* temp = currentNode->next;
+            currentNode->next = temp->next;
+            delete temp;
+            return;
+        }
+        currentNode = currentNode->next;
+        currentPos++;
+    }
+    throw invalid_argument("DelAfter: invalid index!");
+}
+
+void ForwardList::DelElm(string obj) {
+    if (!head) {
+        throw invalid_argument("DelElm: list is empty!");
+    }
+
+    if (head->data == obj) {
+        ForwardNode* temp = head;
+        head = head->next;
+        delete temp;
+        return;
+    }
+
+    ForwardNode* currentNode = head;
+    while (currentNode->next) {
+        if (currentNode->next->data == obj) {
+            ForwardNode* temp = currentNode->next;
+            currentNode->next = temp->next;
+            delete temp;
+            return;
+        }
+        currentNode = currentNode->next;
+    }
+
+    throw invalid_argument("DelElm: invalid value!");
 }
 
 int ForwardList::GetSize() {

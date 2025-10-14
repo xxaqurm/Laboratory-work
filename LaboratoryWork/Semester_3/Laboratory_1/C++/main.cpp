@@ -19,12 +19,10 @@ int main(int argc, char* argv[]) {
         ProgramOptions opts = parseProgramOptions(argc, argv);
         ParsedCommand cmd = parseQuery(opts.query);
 
-        {
-            fstream fcheck(opts.fileName, ios::in);
-            if (!fcheck.is_open()) {
-                ofstream createFile(opts.fileName);
-                createFile.close();
-            }
+        fstream fcheck(opts.fileName, ios::in);
+        if (!fcheck.is_open()) {
+            ofstream createFile(opts.fileName);
+            createFile.close();
         }
 
         map<string, vector<string>> fileData;
@@ -100,9 +98,17 @@ int main(int argc, char* argv[]) {
                 } else if (cmd.command == DSCommands["FORWARDLIST"][5]) {    // PRINTREV
                     fl.PrintReverse(fl.head);
                     cout << endl;
-                } else if (cmd.command == DSCommands["FORWARDLIST"][6]) {    // DELELM
+                } else if (cmd.command == DSCommands["FORWARDLIST"][6]) {    // DELHEAD
+                    fl.DelHead();
+                } else if (cmd.command == DSCommands["FORWARDLIST"][7]) {    // DELTAIL
+                    fl.DelTail();
+                } else if (cmd.command == DSCommands["FORWARDLIST"][8]) {    // DELBEFORE
+                    fl.DelBefore(stoi(cmd.args[0]));
+                } else if (cmd.command == DSCommands["FORWARDLIST"][9]) {    // DELAFTER
+                    fl.DelAfter(stoi(cmd.args[0]));
+                } else if (cmd.command == DSCommands["FORWARDLIST"][10]) {   // DELELM
                     fl.DelElm(cmd.args[0]);
-                } else if (cmd.command == DSCommands["FORWARDLIST"][7]) {    // FIND
+                } else if (cmd.command == DSCommands["FORWARDLIST"][11]) {    // FIND
                     cout << fl.Find(cmd.args[0]) << endl;
                 }
 
@@ -131,9 +137,18 @@ int main(int argc, char* argv[]) {
                     ll.Print();
                 } else if (cmd.command == DSCommands["LINKEDLIST"][5]) {    // PRINTREV
                     ll.PrintReverse();
-                } else if (cmd.command == DSCommands["LINKEDLIST"][6]) {    // DELELM
+                } else if (cmd.command == DSCommands["LINKEDLIST"][6]) {    // DELHEAD
+                    ll.DelHead();
+                } else if (cmd.command == DSCommands["LINKEDLIST"][7]) {    // DELTAIL
+                    ll.DelTail();
+                } else if (cmd.command == DSCommands["LINKEDLIST"][8]) {    // DELBEFORE
+                    ll.DelBefore(stoi(cmd.args[0]));
+                } else if (cmd.command == DSCommands["LINKEDLIST"][9]) {    // DELAFTER
+                    ll.DelAfter(stoi(cmd.args[0]));
+                } else if (cmd.command == DSCommands["LINKEDLIST"][10]) {
                     ll.DelElm(cmd.args[0]);
-                } else if (cmd.command == DSCommands["LINKEDLIST"][7]) {    // FIND
+                }
+                else if (cmd.command == DSCommands["LINKEDLIST"][10]) {    // FIND
                     cout << ll.Find(cmd.args[0]) << endl;
                 }
 
@@ -146,6 +161,7 @@ int main(int argc, char* argv[]) {
             }
             case Structures::QUEUE: {
                 Queue q;
+                q.Init();
                 for (auto& elm : fileData[cmd.userStructName]) {
                     q.Push(elm);
                 }
@@ -189,7 +205,7 @@ int main(int argc, char* argv[]) {
             case Structures::TREEAVL: {
                 AVLTree tree;
                 for (auto& elm : fileData[cmd.userStructName]) {
-                    tree.Push(tree.root, stoi(elm));
+                    tree.root = tree.Push(tree.root, stoi(elm));
                 }
                 
                 if (cmd.command == DSCommands["TREEAVL"][0]) {           // PUSH
@@ -204,6 +220,7 @@ int main(int argc, char* argv[]) {
                     tree.root = tree.DelElm(tree.root, stoi(cmd.args[0]));
                 } else if (cmd.command == DSCommands["TREEAVL"][3]) {    // DFS
                     tree.DFS(tree.root);
+                    cout << endl;
                 } else if (cmd.command == DSCommands["TREEAVL"][4]) {    // BFS
                     tree.BFS(tree.root);
                 }

@@ -12,12 +12,17 @@ struct LinkedNode {
 
 struct LinkedList {
     LinkedNode* head;
+    LinkedNode* tail;
 
     void Init();
     void PushHead(string obj);
     void PushTail(string obj);
     void InsertBefore(string obj, int pos);
     void InsertAfter(string obj, int pos);
+    void DelHead();
+    void DelTail();
+    void DelBefore(int pos);
+    void DelAfter(int pos);
     void DelElm(string obj);
     int Find(string obj);
     int GetSize();

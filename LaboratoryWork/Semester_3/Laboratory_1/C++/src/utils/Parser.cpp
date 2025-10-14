@@ -7,12 +7,12 @@
 using namespace std;
 
 map<string, vector<string>> DSCommands {
-    {"ARRAY", {"AINSERT", "APUSHBACK", "AGETELM", "ADELELM", "AREPLACE", "AGETSIZE", "APRINT"}},                             // ARRAY
-    {"FORWARDLIST", {"FPUSHHEAD", "FPUSHTAIL", "FINSERTAFTER", "FINSERTBEFORE", "FPRINT", "FPRINTREV", "FDELELM", "FFIND"}}, // FORWARDLIST
-    {"LINKEDLIST", {"LPUSHHEAD", "LPUSHTAIL", "LINSERTAFTER", "LINSERTBEFORE", "LPRINT", "LPRINTREV", "LDELELM", "LFIND"}},  // LINKEDLIST
-    {"QUEUE", {"QPUSH", "QPOP", "QPRINT"}},                                                                              // QUEUE
-    {"STACK", {"SPUSH", "SPOP", "SPRINT"}},                                                                              // STACK
-    {"TREEAVL", {"TPUSH", "TFIND", "TDELELM", "TDFS", "TBFS"}}                                                           // AVLTREE
+    {"ARRAY", {"AINSERT", "APUSHBACK", "AGETELM", "ADELELM", "AREPLACE", "AGETSIZE", "APRINT"}},                                                                                // ARRAY
+    {"FORWARDLIST", {"FPUSHHEAD", "FPUSHTAIL", "FINSERTAFTER", "FINSERTBEFORE", "FPRINT", "FPRINTREV", "FDELHEAD", "FDELTAIL", "FDELBEFORE", "FDELAFTER", "FDELELM", "FFIND"}}, // FORWARDLIST
+    {"LINKEDLIST", {"LPUSHHEAD", "LPUSHTAIL", "LINSERTAFTER", "LINSERTBEFORE", "LPRINT", "LPRINTREV", "LDELHEAD", "LDELTAIL", "LDELBEFORE", "LDELAFTER", "LDELELM", "LFIND"}},  // LINKEDLIST
+    {"QUEUE", {"QPUSH", "QPOP", "QPRINT"}},                                                                                                                                     // QUEUE
+    {"STACK", {"SPUSH", "SPOP", "SPRINT"}},                                                                                                                                     // STACK
+    {"TREEAVL", {"TPUSH", "TFIND", "TDELELM", "TDFS", "TBFS"}}                                                                                                                  // AVLTREE
 };
 
 vector<string> parseString(string line) {
