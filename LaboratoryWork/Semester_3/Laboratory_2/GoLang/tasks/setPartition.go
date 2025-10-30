@@ -39,7 +39,6 @@ func findCombinations(
 				if findCombinations(s, result, used, target, newSubset, 0, 0) {
 					return true
 				}
-				// если не нашли полное разбиение, откатываем последний subset
 				*result = (*result)[:len(*result)-1]
 			} else {
 				if findCombinations(s, result, used, target, currentSubset, currentSum+s[i], i+1) {
@@ -47,7 +46,6 @@ func findCombinations(
 				}
 			}
 
-			// backtrack
 			currentSubset = currentSubset[:len(currentSubset)-1]
 			used[i] = false
 		}

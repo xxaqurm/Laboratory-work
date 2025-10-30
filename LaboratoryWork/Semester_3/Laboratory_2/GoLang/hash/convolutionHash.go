@@ -4,19 +4,16 @@ import (
 	"fmt"
 )
 
-// HashTable — аналог C++ класса HashTable
 type HashTable struct {
 	table     [][]pair
 	tableSize int
 }
 
-// pair — пара ключ-значение
 type pair struct {
 	key   int
 	value string
 }
 
-// NewHashTable — конструктор
 func NewHashTable() *HashTable {
 	const size = 10
 	return &HashTable{
@@ -25,7 +22,6 @@ func NewHashTable() *HashTable {
 	}
 }
 
-// foldingHash — хеш-функция "folding"
 func (h *HashTable) foldingHash(key int) int {
 	sum := 0
 	temp := key
@@ -34,11 +30,10 @@ func (h *HashTable) foldingHash(key int) int {
 		temp /= 100
 	}
 	index := sum % h.tableSize
-	fmt.Println(index) // как и в оригинале — вывод индекса
+	fmt.Println(index)
 	return index
 }
 
-// Insert — вставляет или перезаписывает ключ
 func (h *HashTable) Insert(key int, value string) {
 	index := h.foldingHash(key)
 	bucket := &h.table[index]
@@ -53,7 +48,6 @@ func (h *HashTable) Insert(key int, value string) {
 	*bucket = append(*bucket, pair{key: key, value: value})
 }
 
-// Search — ищет по ключу
 func (h *HashTable) Search(key int) string {
 	index := h.foldingHash(key)
 	for _, p := range h.table[index] {
@@ -64,14 +58,12 @@ func (h *HashTable) Search(key int) string {
 	return ""
 }
 
-// Remove — удаляет по ключу
 func (h *HashTable) Remove(key int) bool {
 	index := h.foldingHash(key)
 	bucket := &h.table[index]
 
 	for i, p := range *bucket {
 		if p.key == key {
-			// удалить элемент i
 			*bucket = append((*bucket)[:i], (*bucket)[i+1:]...)
 			return true
 		}
@@ -79,7 +71,6 @@ func (h *HashTable) Remove(key int) bool {
 	return false
 }
 
-// Display — выводит все непустые ячейки
 func (h *HashTable) Display() {
 	for i, bucket := range h.table {
 		if len(bucket) > 0 {

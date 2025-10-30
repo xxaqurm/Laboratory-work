@@ -2,19 +2,16 @@ package ds
 
 import "math"
 
-// BSTNode представляет узел бинарного дерева поиска.
 type BSTNode struct {
 	Val   int
 	Left  *BSTNode
 	Right *BSTNode
 }
 
-// BST — структура бинарного дерева поиска.
 type BST struct {
 	Root *BSTNode
 }
 
-// Insert добавляет новый элемент в дерево.
 func (t *BST) Insert(root *BSTNode, val int) *BSTNode {
 	if root == nil {
 		return &BSTNode{Val: val}
@@ -27,8 +24,6 @@ func (t *BST) Insert(root *BSTNode, val int) *BSTNode {
 	return root
 }
 
-// CheckBalance проверяет балансировку дерева.
-// Возвращает высоту поддерева и изменяет isBalanced по ссылке.
 func (t *BST) CheckBalance(root *BSTNode, isBalanced *bool) int {
 	if root == nil {
 		return 0

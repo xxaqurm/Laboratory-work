@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"laba2/hash" // замените на путь к пакету hash с LRUCache
+	"laba2/hash"
 )
 
 func InteractionWithLRU() {

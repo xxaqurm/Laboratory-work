@@ -8,7 +8,6 @@ import (
 	"strings"
 )
 
-// --- простая реализация множества ---
 type Set struct {
 	data map[string]struct{}
 }
@@ -38,17 +37,14 @@ func (s *Set) GetElements() []string {
 	return elms
 }
 
-// --- вспомогательные функции ---
 func parseLine(query string) []string {
 	parts := strings.Fields(query)
 	return parts
 }
 
-// --- основная функция ---
 func InteractionWithSet(args []string) error {
 	var filename, command, structName, data string
 
-	// --- если аргументы переданы через командную строку ---
 	if len(args) >= 5 && args[1] == "--file" && args[3] == "--query" {
 		filename = args[2]
 		queryParts := parseLine(args[4])
@@ -59,7 +55,6 @@ func InteractionWithSet(args []string) error {
 		structName = queryParts[1]
 		data = queryParts[2]
 	} else {
-		// --- интерактивный ввод ---
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("Введите имя файла: ")
 		fname, _ := reader.ReadString('\n')
@@ -78,7 +73,6 @@ func InteractionWithSet(args []string) error {
 		data = strings.TrimSpace(d)
 	}
 
-	// Проверяем, существует ли файл
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		f, err := os.Create(filename)
 		if err != nil {
@@ -87,7 +81,6 @@ func InteractionWithSet(args []string) error {
 		f.Close()
 	}
 
-	// Считываем данные из файла
 	fileData := make(map[string][]string)
 	file, err := os.Open(filename)
 	if err != nil {
@@ -103,7 +96,6 @@ func InteractionWithSet(args []string) error {
 	}
 	file.Close()
 
-	// Создаём/загружаем множество
 	st := NewSet()
 	if values, ok := fileData[structName]; ok {
 		for _, v := range values {
@@ -111,7 +103,6 @@ func InteractionWithSet(args []string) error {
 		}
 	}
 
-	// --- выполняем команду ---
 	switch command {
 	case "SETADD":
 		st.Add(data)
@@ -127,7 +118,6 @@ func InteractionWithSet(args []string) error {
 		return fmt.Errorf("неизвестная команда: %s", command)
 	}
 
-	// --- сохраняем изменения в файл ---
 	fileData[structName] = st.GetElements()
 	out, err := os.Create(filename)
 	if err != nil {

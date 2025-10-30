@@ -5,7 +5,6 @@ import (
 	"strconv"
 )
 
-// State — состояние ячейки (аналог enum class State)
 type State int
 
 const (
@@ -14,21 +13,18 @@ const (
 	Deleted
 )
 
-// Entry — структура записи таблицы
 type Entry struct {
 	key   int
 	value string
 	state State
 }
 
-// OpenHash — структура хеш-таблицы с открытой адресацией
 type OpenHash struct {
 	table    []Entry
 	capacity int
 	size     int
 }
 
-// NewOpenHash — конструктор (аналог OpenHash(int cap = 16))
 func NewOpenHash(cap int) *OpenHash {
 	if cap <= 0 {
 		cap = 16
@@ -44,7 +40,6 @@ func NewOpenHash(cap int) *OpenHash {
 	}
 }
 
-// hash — простая хеш-функция, аналог C++ версии
 func (h *OpenHash) hash(key int) int {
 	s := strconv.Itoa(key)
 	var hashVal uint64
@@ -54,7 +49,6 @@ func (h *OpenHash) hash(key int) int {
 	return int(hashVal % uint64(h.capacity))
 }
 
-// Insert — вставляет или обновляет элемент
 func (h *OpenHash) Insert(key int, value string) {
 	idx := h.hash(key)
 	start := idx
@@ -69,7 +63,7 @@ func (h *OpenHash) Insert(key int, value string) {
 			return
 		case Occupied:
 			if h.table[idx].key == key {
-				h.table[idx].value = value // обновление
+				h.table[idx].value = value
 				return
 			}
 		}
@@ -81,7 +75,6 @@ func (h *OpenHash) Insert(key int, value string) {
 	}
 }
 
-// Find — ищет по ключу
 func (h *OpenHash) Find(key int) (string, bool) {
 	idx := h.hash(key)
 	start := idx
@@ -103,7 +96,6 @@ func (h *OpenHash) Find(key int) (string, bool) {
 	return "", false
 }
 
-// Remove — удаляет элемент по ключу
 func (h *OpenHash) Remove(key int) bool {
 	idx := h.hash(key)
 	start := idx
@@ -127,7 +119,6 @@ func (h *OpenHash) Remove(key int) bool {
 	return false
 }
 
-// Display — выводит содержимое таблицы
 func (h *OpenHash) Display() {
 	for i, entry := range h.table {
 		if entry.state == Occupied {

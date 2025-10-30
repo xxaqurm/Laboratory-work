@@ -5,7 +5,6 @@ import (
 	"math"
 )
 
-// CacheItem — элемент кеша
 type CacheItem struct {
 	key       int
 	value     int
@@ -13,14 +12,12 @@ type CacheItem struct {
 	valid     bool
 }
 
-// LRUCache — структура кеша
 type LRUCache struct {
 	capacity int
 	timer    int
 	cache    []CacheItem
 }
 
-// NewLRUCache — конструктор
 func NewLRUCache(cap int) *LRUCache {
 	cache := make([]CacheItem, cap)
 	return &LRUCache{
@@ -30,7 +27,6 @@ func NewLRUCache(cap int) *LRUCache {
 	}
 }
 
-// findIndex — поиск индекса по ключу
 func (l *LRUCache) findIndex(key int) int {
 	for i := range l.cache {
 		if l.cache[i].valid && l.cache[i].key == key {
@@ -40,7 +36,6 @@ func (l *LRUCache) findIndex(key int) int {
 	return -1
 }
 
-// findLRUIndex — индекс наименее недавно используемого элемента
 func (l *LRUCache) findLRUIndex() int {
 	oldestTime := math.MaxInt
 	oldestIndex := -1
@@ -53,7 +48,6 @@ func (l *LRUCache) findLRUIndex() int {
 	return oldestIndex
 }
 
-// findFreeSlot — поиск свободного слота
 func (l *LRUCache) findFreeSlot() int {
 	for i := range l.cache {
 		if !l.cache[i].valid {
@@ -63,7 +57,6 @@ func (l *LRUCache) findFreeSlot() int {
 	return -1
 }
 
-// Get — получение значения по ключу
 func (l *LRUCache) Get(key int) int {
 	index := l.findIndex(key)
 	if index == -1 {
@@ -74,7 +67,6 @@ func (l *LRUCache) Get(key int) int {
 	return l.cache[index].value
 }
 
-// Insert — вставка или обновление значения
 func (l *LRUCache) Insert(key int, value int) {
 	index := l.findIndex(key)
 	if index != -1 {
@@ -106,7 +98,6 @@ func (l *LRUCache) Insert(key int, value int) {
 	}
 }
 
-// Remove — удаление по ключу
 func (l *LRUCache) Remove(key int) bool {
 	index := l.findIndex(key)
 	if index == -1 {
@@ -116,7 +107,6 @@ func (l *LRUCache) Remove(key int) bool {
 	return true
 }
 
-// Display — вывод содержимого кеша
 func (l *LRUCache) Display() {
 	fmt.Printf("LRUCache (capacity: %d, size: %d):\n", l.capacity, l.GetSize())
 	for _, item := range l.cache {
@@ -126,7 +116,6 @@ func (l *LRUCache) Display() {
 	}
 }
 
-// GetSize — возвращает количество активных элементов
 func (l *LRUCache) GetSize() int {
 	count := 0
 	for _, item := range l.cache {
@@ -137,12 +126,10 @@ func (l *LRUCache) GetSize() int {
 	return count
 }
 
-// Empty — проверяет, пуст ли кеш
 func (l *LRUCache) Empty() bool {
 	return l.GetSize() == 0
 }
 
-// Keys — возвращает список ключей
 func (l *LRUCache) Keys() []int {
 	keys := []int{}
 	for _, item := range l.cache {
@@ -153,7 +140,6 @@ func (l *LRUCache) Keys() []int {
 	return keys
 }
 
-// Values — возвращает список значений
 func (l *LRUCache) Values() []int {
 	values := []int{}
 	for _, item := range l.cache {
@@ -164,7 +150,6 @@ func (l *LRUCache) Values() []int {
 	return values
 }
 
-// Clear — очистка кеша
 func (l *LRUCache) Clear() {
 	for i := range l.cache {
 		l.cache[i].valid = false

@@ -7,13 +7,11 @@ import (
 	"strconv"
 	"strings"
 
-	"laba2/ds" // замените на путь к пакету ds с DynamicArray
+	"laba2/ds"
 )
 
-// createSubarrays рекурсивно создаёт все подмассивы
 func createSubarrays(arr *ds.DynamicArray[string], current *ds.DynamicArray[string], idx int, subarrays *ds.DynamicArray[*ds.DynamicArray[string]]) {
 	if idx == arr.GetSize() {
-		// создаём копию current, чтобы сохранить текущее состояние
 		temp := ds.NewDynamicArray[string]()
 		for i := 0; i < current.GetSize(); i++ {
 			val, _ := current.At(i)
@@ -23,10 +21,8 @@ func createSubarrays(arr *ds.DynamicArray[string], current *ds.DynamicArray[stri
 		return
 	}
 
-	// не включаем текущий элемент
 	createSubarrays(arr, current, idx+1, subarrays)
 
-	// включаем текущий элемент
 	val, _ := arr.At(idx)
 	current.PushBack(val)
 	createSubarrays(arr, current, idx+1, subarrays)

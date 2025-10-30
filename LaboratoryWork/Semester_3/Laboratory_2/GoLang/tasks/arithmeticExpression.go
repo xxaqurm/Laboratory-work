@@ -8,7 +8,6 @@ import (
 	"unicode"
 )
 
-// Stack — простая реализация стека
 type Stack[T any] struct {
 	data []T
 }
@@ -38,8 +37,6 @@ func (s *Stack[T]) Top() (T, error) {
 func (s *Stack[T]) Empty() bool {
 	return len(s.data) == 0
 }
-
-// --- Вспомогательные функции ---
 
 func isDigit(r rune) bool {
 	return unicode.IsDigit(r)
@@ -76,8 +73,6 @@ func calculate(a, b int64, op rune) int64 {
 		return 0
 	}
 }
-
-// --- Основная функция вычисления выражения ---
 
 func ArithmeticExpression() {
 	reader := bufio.NewReader(os.Stdin)
@@ -136,7 +131,7 @@ func ArithmeticExpression() {
 				fmt.Println("[ ERROR ] Opening bracket is missing!")
 				return
 			}
-			operators.Pop() // удалить '('
+			operators.Pop()
 			i++
 			continue
 		}

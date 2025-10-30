@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"laba2/ds" // замените на путь к пакету ds с BST
+	"laba2/ds"
 )
 
 func AVLBalance() {
