@@ -1,7 +1,4 @@
-#include "../../include/LRU.hpp"
-#include <iostream>
-#include <map>
-#include <limits>
+#include "../../include/LRUHash.hpp"
 
 using namespace std;
 

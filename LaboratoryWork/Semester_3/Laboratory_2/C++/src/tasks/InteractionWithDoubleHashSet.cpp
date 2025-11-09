@@ -1,14 +1,6 @@
-#include <iostream>
-#include <fstream>
-#include <stdexcept>
-#include <vector>
-#include <map>
+#include "../../include/InteractionWithDoubleHashSet.hpp"
 
-#include "../../include/set.hpp"
-
-using namespace std;
-
-void parseLine(vector<string>& queryParts, const string query) {
+void parseLine(DynamicArray<string>& queryParts, const string query) {
     string currentPhrase;
     for (int i = 0; i < query.length(); i++) {
         if (query[i] == ' ' && !currentPhrase.empty()) {
@@ -38,28 +30,27 @@ void interactionWithSet(int argc, char* argv[]) {
     }
 
     ifstream inFile(static_cast<string>(argv[2]));
-    map<string, vector<string>> fileData;
+    Map<string, DynamicArray<string>> fileData;
     string line;
     while (getline(inFile, line)) {
-        vector<string> temp;
+        DynamicArray<string> temp;
         parseLine(temp, line);
-        fileData[temp[0]] = vector<string>(temp.begin() + 1, temp.end());
+        fileData[temp[0]] = DynamicArray<string>(temp.begin() + 1, temp.end());
     }
 
-    vector<string> queryPart;
+    DynamicArray<string> queryPart;
     parseLine(queryPart, static_cast<string>(argv[4]));
 
     if (queryPart.size() != 3) {
         throw runtime_error("[ ERROR ] Incorrect number of arguments!");
     }
 
-    Set st;
-    for (auto& [key, value] : fileData) {
-        if (key == queryPart[1]) {
-            for (auto& elm : value) {
-                st.add(elm);
-            }
-            break;
+    Set<string> st;
+    for (size_t i = 0; i < fileData.size(); i++) {
+        if (fileData.contains(queryPart[1])) {
+            DynamicArray<string>& vals = fileData[queryPart[1]];
+            for (size_t j = 0; j < vals.size(); j++)
+                st.add(vals[j]);
         }
     }
 
@@ -77,17 +68,23 @@ void interactionWithSet(int argc, char* argv[]) {
         throw runtime_error("[ ERROR ] Unknown command!");
     }
 
-    vector<string> elms;
+    DynamicArray<string> elms;
     st.getElms(elms);
     fileData[queryPart[1]] = elms;
 
+    DynamicArray<string> keys = fileData.keys();
     ofstream outFile(static_cast<string>(argv[2]), ios::trunc);
-    for (auto& entry : fileData) {
-        outFile << entry.first;
-        for (auto& elm : entry.second) {
-            outFile << " " << elm;
+
+    for (size_t i = 0; i < keys.size(); i++) {
+        string key = keys[i];
+        DynamicArray<string>& values = fileData[key];
+
+        outFile << key;
+        for (size_t j = 0; j < values.size(); j++) {
+            outFile << " " << values[j];
         }
         outFile << "\n";
     }
+
     outFile.close();
 }

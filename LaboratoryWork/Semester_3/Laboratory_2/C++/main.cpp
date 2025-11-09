@@ -1,17 +1,14 @@
 #include <iostream>
 #include <fstream>
 
-#include "./include/menu.hpp"
-#include "./include/arithmetic_expression.hpp"
-#include "./include/interaction_with_set.hpp"
-#include "./include/set_partition.hpp"
-#include "./include/subarrays.hpp"
-#include "./include/AVL_balance.hpp"
-#include "./include/LRU.hpp"
-#include "./include/interaction_with_LRU.hpp"
-#include "./include/interaction_with_convolution_hash.hpp"
-#include "./include/convolution_hash.hpp"
-#include "./include/openHash.hpp"
+#include "include/menu.hpp"
+#include "include/ArithmeticExpression.hpp"
+#include "include/SetPartition.hpp"
+#include "include/InteractionWithDoubleHashSet.hpp"
+#include "include/Subarrays.hpp"
+#include "include/AVLBalance.hpp"
+#include "include/InteractionWithHashs.hpp"
+#include "include/InteractionWithLRUHash.hpp"
 
 using namespace std;
 
@@ -48,7 +45,7 @@ int main(int argc, char* argv[]) {
                 AVLBalance();
                 break;
             case MenuOptions::ConvolutionMethod:
-                intWithConvHash();
+                intWithHashs();
                 break;
             case MenuOptions::LRUCache:
                 interactionWithLRU();

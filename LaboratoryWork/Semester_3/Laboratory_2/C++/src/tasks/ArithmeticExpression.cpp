@@ -1,9 +1,4 @@
-#include <iostream>
-#include <string>
-#include <cstdint>
-#include "../../include/stack.hpp"
-
-using namespace std;
+#include "../../include/ArithmeticExpression.hpp"
 
 bool isSpace(char c) {
     return c == ' ';
@@ -51,7 +46,7 @@ void arithmeticExpression() {
     Stack<char> operators;
     Stack<int64_t> operands;
 
-    for (int i = 0; i < expression.length();) {
+    for (size_t i = 0; i < expression.length();) {
         char currentChar = expression[i];
         
         if (isSpace(currentChar)) {
@@ -78,7 +73,7 @@ void arithmeticExpression() {
         if (isClosingBracket(currentChar)) {
             while (!operators.Empty() && operators.Top() != '(') {
                 if (operands.Empty()) {
-                    throw runtime_error("[ ERROR ] Missing operand!");
+                    throw runtime_error("[ ERROR ] Missing operand");
                 }
 
                 int64_t secondOperand = operands.Top();

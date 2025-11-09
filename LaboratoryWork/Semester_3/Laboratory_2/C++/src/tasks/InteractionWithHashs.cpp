@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
-#include "../../include/convolution_hash.hpp"
-#include "../../include/openHash.hpp"
+#include "../../include/ChainedHash.hpp"
+#include "../../include/OpenAddressingHash.hpp"
 
 using namespace std;
 
-void intWithConvHash() {
+void intWithHashs() {
     int method;
     cout << "Выберите режим (1 - метод цепочек, 2 - метод открытой адресации): ";
     cin >> method;
