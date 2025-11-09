@@ -38,21 +38,20 @@ void OpenHash::insert(int key, const string& value) {
     cout << "Таблица переполнена!" << endl;
 }
 
-bool OpenHash::find(int key, string& outValue) const {
+string OpenHash::find(int key) const {
     int idx = hash(key);
     int start = idx;
 
     do {
         if (table[idx].state == State::EMPTY)
-            return false;
+            return "";
         if (table[idx].state == State::OCCUPIED && table[idx].key == key) {
-            outValue = table[idx].value;
-            return true;
+            return table[idx].value;
         }
         idx = (idx + 1) % capacity;
     } while (idx != start);
 
-    return false;
+    return "";
 }
 
 bool OpenHash::remove(int key) {

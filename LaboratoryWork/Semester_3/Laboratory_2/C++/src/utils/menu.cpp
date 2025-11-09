@@ -12,7 +12,7 @@ void startMenu() {
     cout << "3. Set partition" << endl;
     cout << "4. Subarrays" << endl;
     cout << "5. Check AVL-tree balance" << endl;
-    cout << "6. Convolution method" << endl;
+    cout << "6. Interaction with Chained and Open Addressing hash methods" << endl;
     cout << "7. LRU cach" << endl;
     cout << "Выберите программу: ";
 }

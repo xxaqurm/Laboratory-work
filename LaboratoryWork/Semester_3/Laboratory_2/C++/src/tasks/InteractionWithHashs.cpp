@@ -16,17 +16,22 @@ void intWithHashs() {
             string cmd;
             int key;
             string value;
-            cout << "Введите команду (INSERT key value | SEARCH key value | REMOVE key value | DISPLAY): ";
+            cout << "Введите команду (INSERT key value | SEARCH key | REMOVE key | DISPLAY): ";
             cin >> cmd;
 
             if (cmd == "INSERT") {
                 cin >> key >> value;
                 hsh.insert(key, value);
             } else if (cmd == "SEARCH") {
-                cin >> key >> value;
-                cout << hsh.search(key);
+                cin >> key;
+                string value = hsh.search(key);
+                if (value.empty()) {
+                    cout << "Элемента не найдено" << endl;
+                } else {
+                    cout << hsh.search(key) << endl;
+                }
             } else if (cmd == "REMOVE") {
-                cin >> key >> value;
+                cin >> key;
                 if (hsh.remove(key)) {
                     cout << "Элемент удален" << endl;
                 } else {
@@ -44,25 +49,28 @@ void intWithHashs() {
             string cmd;
             int key;
             string value;
-            cout << "Введите команду (INSERT key value | SEARCH key value | REMOVE key value | DISPLAY): ";
+            cout << "Введите команду (INSERT key value | SEARCH key | REMOVE key | DISPLAY): ";
             cin >> cmd;
 
             if (cmd == "INSERT") {
                 cin >> key >> value;
                 hsm.insert(key, value);
             } else if (cmd == "SEARCH") {
-                cin >> key >> value;
-                if (hsm.find(key, value)) {
-                    cout << "Элемент присутствует!" << endl;
+                cin >> key;
+                string value = hsm.find(key);
+                if (value.empty()) {
+                    cout << "Элемента не найдено" << endl;
                 } else {
-                    cout << "Элемент отсутствует!" << endl;
+                    cout << hsm.find(key) << endl;
                 }
             } else if (cmd == "REMOVE") {
-                cin >> key >> value;
+                cin >> key;
                 hsm.remove(key);
             } else if (cmd == "DISPLAY") {
                 hsm.display();
             }
+            cin.ignore();
+            cin.clear();
         }
     } else {
         throw invalid_argument("[ ERROR ] Unknown method");
