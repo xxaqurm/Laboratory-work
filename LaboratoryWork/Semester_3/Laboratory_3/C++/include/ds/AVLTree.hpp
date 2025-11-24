@@ -201,21 +201,6 @@ bool AVLTree<T>::contains(const T& key) {
 }
 
 template<typename T>
-void AVLTree<T>::BFS() {
-    if (!root) return;
-    queue<Node*> q;
-    q.push(root);
-    while (!q.empty()) {
-        Node* n = q.front();
-        q.pop();
-        cout << n->key << " ";
-        if (n->left) q.push(n->left);
-        if (n->right) q.push(n->right);
-    }
-    cout << endl;
-}
-
-template<typename T>
 void AVLTree<T>::dfs(Node* node) {
     if (!node) return;
     dfs(node->left);

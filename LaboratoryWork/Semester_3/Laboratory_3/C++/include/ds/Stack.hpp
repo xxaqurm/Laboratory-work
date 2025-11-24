@@ -13,8 +13,8 @@ private:
         Node(const T& value) : data(value), next(nullptr) {}
     };
 
-    Node* head;
-    size_t size;
+    Node* head_;
+    size_t count_;
 
 public:
     Stack();
@@ -25,12 +25,12 @@ public:
     T& top();
     const T& top() const;
     bool empty() const;
-    int size() const;
+    size_t size() const;
     void clear();
 };
 
 template<typename T>
-Stack<T>::Stack() : head(nullptr), size(0) {}
+Stack<T>::Stack() : head_(nullptr), count_(0) {}
 
 template<typename T>
 Stack<T>::~Stack() {
@@ -40,48 +40,48 @@ Stack<T>::~Stack() {
 template<typename T>
 void Stack<T>::push(const T& value) {
     Node* newNode = new Node(value);
-    newNode->next = head;
-    head = newNode;
-    size++;
+    newNode->next = head_;
+    head_ = newNode;
+    count_++;
 }
 
 template<typename T>
 void Stack<T>::pop() {
     if (empty()) throw out_of_range("Stack is empty");
-    Node* tmp = head;
-    head = head->next;
+    Node* tmp = head_;
+    head_ = head_->next;
     delete tmp;
-    size--;
+    count_--;
 }
 
 template<typename T>
 T& Stack<T>::top() {
     if (empty()) throw out_of_range("Stack is empty");
-    return head->data;
+    return head_->data;
 }
 
 template<typename T>
 const T& Stack<T>::top() const {
     if (empty()) throw out_of_range("Stack is empty");
-    return head->data;
+    return head_->data;
 }
 
 template<typename T>
 bool Stack<T>::empty() const {
-    return head == nullptr;
+    return count_ == 0;
 }
 
 template<typename T>
-int Stack<T>::size() const {
-    return size;
+size_t Stack<T>::size() const {
+    return count_;
 }
 
 template<typename T>
 void Stack<T>::clear() {
-    while (head) {
-        Node* tmp = head;
-        head = head->next;
+    while (head_) {
+        Node* tmp = head_;
+        head_ = head_->next;
         delete tmp;
     }
-    size = 0;
+    count_ = 0;
 }

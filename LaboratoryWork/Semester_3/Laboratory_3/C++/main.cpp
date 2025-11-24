@@ -1,14 +1,14 @@
 #include <iostream>
 
-// #include "Array.hpp"
-// #include "LinkedList.hpp"
-// #include "ForwardList.hpp"
-// #include "Queue.hpp"
-// #include "Stack.hpp"
-// #include "AVLTree.hpp"
-// #include "ChainedHash.hpp"
-// #include "DoubleHashSet.hpp"
-// #include "LRUHash.hpp"
+#include "./ds/Array.hpp"
+#include "./ds/LinkedList.hpp"
+#include "./ds/ForwardList.hpp"
+#include "./ds/Queue.hpp"
+#include "./ds/Stack.hpp"
+#include "./ds/AVLTree.hpp"
+#include "./hash/SeparateChainingHashTable.hpp"
+#include "./hash/DoubleHashingHashTable.hpp"
+#include "./hash/LinearProbingHashTable.hpp"
 
 using namespace std;
 

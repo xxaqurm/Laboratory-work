@@ -13,9 +13,9 @@ private:
         Node(const T& value) : data(value), next(nullptr) {}
     };
 
-    Node* head;
-    Node* tail;
-    size_t size;
+    Node* head_;
+    Node* tail_;
+    size_t count_;
 
 public:
     Queue();
@@ -28,12 +28,12 @@ public:
     T& back();
     const T& back() const;
     bool empty() const;
-    int size() const;
+    size_t size() const;
     void clear();
 };
 
 template<typename T>
-Queue<T>::Queue() : head(nullptr), tail(nullptr), size(0) {}
+Queue<T>::Queue() : head_(nullptr), tail_(nullptr), count_(0) {}
 
 template<typename T>
 Queue<T>::~Queue() {
@@ -43,66 +43,66 @@ Queue<T>::~Queue() {
 template<typename T>
 void Queue<T>::enqueue(const T& value) {
     Node* newNode = new Node(value);
-    if (!tail) {
-        head = tail = newNode;
+    if (!tail_) {
+        head_ = tail_ = newNode;
     } else {
-        tail->next = newNode;
-        tail = newNode;
+        tail_->next = newNode;
+        tail_ = newNode;
     }
-    size++;
+    count_++;
 }
 
 template<typename T>
 void Queue<T>::dequeue() {
     if (empty()) throw out_of_range("Queue is empty");
-    Node* tmp = head;
-    head = head->next;
+    Node* tmp = head_;
+    head_ = head_->next;
     delete tmp;
-    size--;
-    if (!head) tail = nullptr;
+    count_--;
+    if (!head_) tail_ = nullptr;
 }
 
 template<typename T>
 T& Queue<T>::front() {
     if (empty()) throw out_of_range("Queue is empty");
-    return head->data;
+    return head_->data;
 }
 
 template<typename T>
 const T& Queue<T>::front() const {
     if (empty()) throw out_of_range("Queue is empty");
-    return head->data;
+    return head_->data;
 }
 
 template<typename T>
 T& Queue<T>::back() {
     if (empty()) throw out_of_range("Queue is empty");
-    return tail->data;
+    return tail_->data;
 }
 
 template<typename T>
 const T& Queue<T>::back() const {
     if (empty()) throw out_of_range("Queue is empty");
-    return tail->data;
+    return tail_->data;
 }
 
 template<typename T>
 bool Queue<T>::empty() const {
-    return head == nullptr;
+    return count_ == 0;
 }
 
 template<typename T>
-int Queue<T>::size() const {
-    return size;
+size_t Queue<T>::size() const {
+    return count_;
 }
 
 template<typename T>
 void Queue<T>::clear() {
-    while (head) {
-        Node* tmp = head;
-        head = head->next;
+    while (head_) {
+        Node* tmp = head_;
+        head_ = head_->next;
         delete tmp;
     }
-    head = tail = nullptr;
-    size = 0;
+    head_ = tail_ = nullptr;
+    count_ = 0;
 }
