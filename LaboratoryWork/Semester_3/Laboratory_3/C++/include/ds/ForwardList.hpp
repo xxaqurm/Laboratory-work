@@ -31,8 +31,12 @@ public:
 
     void pop_front();
     void pop_back();
-    void remove_before(int index);
-    void remove_after(int index);
+    void remove_before(const int index);
+    void remove(const T& value);
+    void remove_after(const int index);
+
+    T& at(const int index) const;
+    int find(const T& value) const;
 
     T& front();
     const T& front() const;
@@ -153,7 +157,7 @@ void ForwardList<T>::pop_back() {
 }
 
 template<typename T>
-void ForwardList<T>::remove_before(int index) {
+void ForwardList<T>::remove_before(const int index) {
     if (index <= 0) throw out_of_range("No element before index");
 
     if (index == 1) {
@@ -175,7 +179,32 @@ void ForwardList<T>::remove_before(int index) {
 }
 
 template<typename T>
-void ForwardList<T>::remove_after(int index) {
+void ForwardList<T>::remove(const T& value) {
+    if (!head) return;
+
+    if (head->data == value) {
+        Node* tmp = head;
+        head = head->next;
+        delete tmp;
+        return;
+    }
+
+    Node* prev = head;
+    Node* curr = head->next;
+
+    while (curr) {
+        if (curr->data == value) {
+            prev->next = curr->next;
+            delete curr;
+            return;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
+}
+
+template<typename T>
+void ForwardList<T>::remove_after(const int index) {
     if (index < 0) throw out_of_range("Index cannot be negative");
 
     Node* current = head;
@@ -265,4 +294,34 @@ void ForwardList<T>::clear() {
         head = head->next;
         delete tmp;
     }
+}
+
+template<typename T>
+int ForwardList<T>::find(const T& value) const {
+    Node* current = head;
+    int index = 0;
+
+    while (current) {
+        if (current->data == value)
+            return index;
+        current = current->next;
+        index++;
+    }
+
+    return -1;
+}
+
+template<typename T>
+T& ForwardList<T>::at(const int index) const {
+    if (index < 0) throw out_of_range("Index cannot be negative");
+
+    Node* current = head;
+    for (int i = 0; i < index; i++) {
+        if (!current) throw out_of_range("Index out of range");
+        current = current->next;
+    }
+
+    if (!current) throw out_of_range("Index out of range");
+
+    return current->data;
 }

@@ -30,7 +30,24 @@ public:
     bool empty() const;
     size_t size() const;
     void clear();
+
+    void push_back(const T& value) {
+        enqueue(value);
+    }
+
+    void remove(const T& value) {
+        dequeue();
+    }
+
+    int find(const T& value) const;
+
+    T& at(const int index) const;
 };
+
+template<typename T>
+T& Queue<T>::at(const int index) const {
+    return head_->data;
+}
 
 template<typename T>
 Queue<T>::Queue() : head_(nullptr), tail_(nullptr), count_(0) {}
@@ -38,6 +55,22 @@ Queue<T>::Queue() : head_(nullptr), tail_(nullptr), count_(0) {}
 template<typename T>
 Queue<T>::~Queue() {
     clear();
+}
+
+template<typename T>
+int Queue<T>::find(const T& value) const {
+    Node* current = head_;
+    int index = 0;
+
+    while (current) {
+        if (current->data == value)
+            return index;
+
+        current = current->next;
+        index++;
+    }
+
+    return -1;
 }
 
 template<typename T>

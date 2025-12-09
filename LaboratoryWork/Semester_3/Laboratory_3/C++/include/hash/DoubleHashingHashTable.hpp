@@ -8,6 +8,8 @@ using namespace std;
 template<typename Key>
 class DoubleHashingSet {
 private:
+    static constexpr double LOAD_FACTOR = 0.75; 
+
     enum class SlotStatus {
         EMPTY,
         OCCUPIED,
@@ -33,20 +35,43 @@ public:
     void insert(const Key& key);
     bool contains(const Key& key) const;
     bool remove(const Key& key);
+    size_t size() const;
+    size_t getCapacity() const;
     void display() const;
 };
 
 template<typename Key>
-DoubleHashingSet<Key>::DoubleHashingSet(size_t initialCapacity) : capacity(initialCapacity), table(initialCapacity) {}
+DoubleHashingSet<Key>::DoubleHashingSet(size_t initialCapacity) : table(initialCapacity), capacity(initialCapacity) {}
 
 template<typename Key>
 size_t DoubleHashingSet<Key>::hash1(const Key& key) const {
-    return static_cast<size_t>(key) % capacity;
+    size_t h = 0;
+    if constexpr (is_integral_v<Key>) {
+        h = static_cast<size_t>(key);
+        h = (h ^ (h >> 4)) * 2654435761 % capacity;
+    } else {
+        const string& s = key;
+        for (char c : s) {
+            h = (h * 31 + c);
+        }
+        h = h % capacity;
+    }
+    return h;
 }
 
 template<typename Key>
 size_t DoubleHashingSet<Key>::hash2(const Key& key) const {
-    return 1 + (static_cast<size_t>(key) % (capacity - 1));
+    size_t h = 0;
+    if constexpr (is_integral_v<Key>) {
+        h = static_cast<size_t>(key);
+        h = (h ^ (h >> 3)) * 40503;
+    } else {
+        const string& s = key;
+        for (char c : s) {
+            h = (h * 17 + c);
+        }
+    }
+    return 1 + (h % (capacity - 1));
 }
 
 template<typename Key>
@@ -70,7 +95,9 @@ void DoubleHashingSet<Key>::resize(size_t newCapacity) {
 
 template<typename Key>
 void DoubleHashingSet<Key>::insert(const Key& key) {
-    if (currentSize * 2 >= capacity) resize(capacity * 2 + 1);
+    if (static_cast<double>(currentSize) / capacity >= LOAD_FACTOR) {
+        resize(capacity * 2 + 1); 
+    }
 
     size_t i = 0;
     size_t idx;
@@ -135,4 +162,14 @@ void DoubleHashingSet<Key>::display() const {
         }
         cout << endl;
     }
+}
+
+template<typename Key>
+size_t DoubleHashingSet<Key>::size() const {
+    return this->currentSize;
+}
+
+template<typename Key>
+size_t DoubleHashingSet<Key>::getCapacity() const {
+    return this->capacity;
 }

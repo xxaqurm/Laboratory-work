@@ -8,9 +8,9 @@ using namespace std;
 template<typename T>
 class Array {
 private:
-    T* data_;
     size_t size_;
     size_t capacity_;
+    T* data_;
 
     void resizeToLeft();
     void resizeToRight();
@@ -38,6 +38,9 @@ public:
     void clear();
     void display() const;
 
+    int find(const T& value) const;
+    bool remove(const T& value);
+
     T& at(int index) const;
     T& operator[](int index) const;
 
@@ -45,7 +48,7 @@ public:
 };
 
 template<typename T>
-Array<T>::Array() : data_(new T[10]), size_(0), capacity_(10) {}
+Array<T>::Array() : size_(0), capacity_(10), data_(new T[10]) {}
 
 template<typename T>
 Array<T>::Array(int initialCapacity) {
@@ -107,10 +110,15 @@ void Array<T>::resizeToRight() {
 
 template<typename T>
 void Array<T>::resizeToLeft() {
-    size_t newCapacity = (size_ == 0 ? 1 : size_ * 2);
-    if (newCapacity >= capacity_) return;
+    size_t newCapacity = capacity_ / 2;
+    if (newCapacity < size_) newCapacity = size_;
+    if (newCapacity < 10) newCapacity = 10;
+
+    if (newCapacity == capacity_) return;
+
     T* newData = new T[newCapacity];
     for (size_t i = 0; i < size_; i++) newData[i] = data_[i];
+
     delete[] data_;
     data_ = newData;
     capacity_ = newCapacity;
@@ -168,6 +176,28 @@ template<typename T>
 T& Array<T>::at(int index) const {
     if (index < 0 || index >= static_cast<int>(size_)) throw out_of_range("Index out of range");
     return data_[index];
+}
+
+template<typename T>
+int Array<T>::find(const T& value) const {
+    for (size_t i = 0; i < size_; i++) {
+        if (data_[i] == value) {
+            return static_cast<int>(i);
+        }
+    }
+    return -1;
+}
+
+template<typename T>
+bool Array<T>::remove(const T& value) {
+    int index = find(value);
+    
+    if (index == -1) {
+        return false;
+    }
+    
+    erase(index);
+    return true;
 }
 
 template<typename T>

@@ -33,12 +33,34 @@ public:
 
     void insert(const Key& key, const Value& value);
     bool remove(const Key& key);
-    bool get(const Key& key, Value& result) const;
+    bool contains(const Key& key) const;
+    Value get(const Key& key) const;
 
     size_t size() const;
     bool isEmpty() const;
     void display() const;
 };
+
+template<typename Key, typename Value>
+Value LinearProbingHashMap<Key, Value>::get(const Key& key) const {
+    size_t idx = hashCode(key);
+    size_t startIdx = idx;
+
+    do {
+        if (table[idx].state == State::OCCUPIED && table[idx].key == key) {
+            return table[idx].value;
+        }
+
+        if (table[idx].state == State::EMPTY) {
+            throw runtime_error("Key not found");
+        }
+
+        idx = (idx + 1) % capacity;
+
+    } while (idx != startIdx);
+
+    throw runtime_error("Key not found");
+}
 
 template<typename Key, typename Value>
 LinearProbingHashMap<Key, Value>::LinearProbingHashMap(size_t cap) : capacity(cap), count(0) {
@@ -94,13 +116,12 @@ bool LinearProbingHashMap<Key, Value>::remove(const Key& key) {
 }
 
 template<typename Key, typename Value>
-bool LinearProbingHashMap<Key, Value>::get(const Key& key, Value& result) const {
+bool LinearProbingHashMap<Key, Value>::contains(const Key& key) const {
     size_t idx = hashCode(key);
     size_t startIdx = idx;
 
     do {
         if (table[idx].state == State::OCCUPIED && table[idx].key == key) {
-            result = table[idx].value;
             return true;
         }
         if (table[idx].state == State::EMPTY) return false;

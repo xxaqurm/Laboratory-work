@@ -27,7 +27,52 @@ public:
     bool empty() const;
     size_t size() const;
     void clear();
+
+    void push_back(const T& value) {
+        push(value);
+    }
+
+    void remove(const T& value) {
+        pop();
+    }
+
+    int find(const T& value) const;
+
+    T& at(const int index) const;
 };
+
+template<typename T>
+T& Stack<T>::at(const int index) const {
+    if (index < 0 || index >= static_cast<int>(count_))
+        throw out_of_range("Index out of range");
+
+    Node* current = head_;
+    int i = 0;
+    while (current) {
+        if (i == index)
+            return current->data;
+        current = current->next;
+        i++;
+    }
+
+    throw out_of_range("Index out of range");
+}
+
+template<typename T>
+int Stack<T>::find(const T& value) const {
+    Node* current = head_;
+    int index = 0;
+
+    while (current) {
+        if (current->data == value)
+            return index;
+
+        current = current->next;
+        index++;
+    }
+
+    return -1;
+}
 
 template<typename T>
 Stack<T>::Stack() : head_(nullptr), count_(0) {}

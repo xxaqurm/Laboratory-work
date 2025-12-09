@@ -34,13 +34,18 @@ public:
     void pop_front();
     void pop_back();
     void remove_before(int index);
+    void remove(T& value);
     void remove_after(int index);
 
     T& front();
     const T& front() const;
 
+    int find (const T& value) const;
+
     T& back();
     const T& back() const;
+
+    T& at(int index) const;
 
     void display_forward() const;
     void display_reverse() const;
@@ -168,6 +173,34 @@ void LinkedList<T>::remove_before(int index) {
 }
 
 template<typename T>
+void LinkedList<T>::remove(T& value) {
+    if (!head) return;
+
+    if (head->data == value) {
+        pop_front();
+        return;
+    }
+
+    Node* current = head->next;
+
+    while (current) {
+        if (current->data == value) {
+            Node* prev = current->prev;
+            Node* next = current->next;
+
+            prev->next = next;
+            if (next) next->prev = prev;
+
+            if (current == tail) tail = prev;
+
+            delete current;
+            return;
+        }
+        current = current->next;
+    }
+}
+
+template<typename T>
 void LinkedList<T>::remove_after(int index) {
     Node* current = head;
     for (int i = 0; i < index; i++) {
@@ -249,4 +282,36 @@ void LinkedList<T>::clear() {
         delete tmp;
     }
     tail = nullptr;
+}
+
+template<typename T>
+T& LinkedList<T>::at(int index) const {
+    if (index < 0) throw out_of_range("Index cannot be negative");
+
+    Node* current = head;
+    int i = 0;
+
+    while (current) {
+        if (i == index) return current->data;
+        current = current->next;
+        i++;
+    }
+
+    throw out_of_range("Index out of range");
+}
+
+template<typename T>
+int LinkedList<T>::find(const T& value) const {
+    Node* current = head;
+    int index = 0;
+
+    while (current) {
+        if (current->data == value)
+            return index;
+
+        current = current->next;
+        index++;
+    }
+
+    return -1;
 }
