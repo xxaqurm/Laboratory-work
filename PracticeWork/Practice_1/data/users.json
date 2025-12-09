@@ -1,0 +1,48 @@
+[
+    {
+        "city": "Novosibirsk",
+        "_id": "ObjectId(43429120-ec4d-44cf-a4e1-4357e4e1b3023c37)",
+        "name": "Anton",
+        "hobbies": [
+            "swimming",
+            "programming",
+            "eating",
+            "sleeping"
+        ],
+        "country": "Russia",
+        "age": 19.000000
+    },
+    {
+        "city": "St. Peterburg",
+        "_id": "ObjectId(8f8577e2-19aa-4a41-b662-7d90b6628e0bd373)",
+        "name": "Vladivim",
+        "age": 22.000000,
+        "country": "Russia",
+        "hobbies": [
+            "dota",
+            "ctf",
+            "cybersec"
+        ]
+    },
+    {
+        "city": "Novosibirsk",
+        "_id": "ObjectId(7358f308-6deb-4c35-a512-23a52512bf96b2f9)",
+        "name": "Miron",
+        "country": "Russia",
+        "age": 22.000000
+    },
+    {
+        "city": "Kazan",
+        "_id": "ObjectId(641525b0-77a3-40ab-bfcb-9e7fffcb9067ee48)",
+        "name": "Aleksandr",
+        "age": 17.000000,
+        "country": "Russia"
+    },
+    {
+        "city": "Moscow",
+        "_id": "ObjectId(26316818-9557-4dc4-ba7a-7925fa7a76ad64dc)",
+        "name": "Petya",
+        "age": 22.000000,
+        "country": "Russia"
+    }
+]
