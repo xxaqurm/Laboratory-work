@@ -1,24 +1,24 @@
 #include "database.hpp"
 
 string generateUUID() {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<uint32_t> dis(0, 0xFFFFFFFF);
+    static const char hex[] = "0123456789abcdef";
 
-    uint32_t data[4];
-    for (size_t i = 0; i < 4; i++) {
-        data[i] = dis(gen);
+    static random_device rd;
+    static mt19937 gen(rd());
+    static uniform_int_distribution<int> hexDist(0, 15);
+    static uniform_int_distribution<int> variantDist(8, 11);
+
+    string uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
+
+    for (char &c : uuid) {
+        if (c == 'x') {
+            c = hex[hexDist(gen)];
+        } else if (c == 'y') {
+            c = hex[variantDist(gen)];
+        }
     }
 
-    ostringstream oss;
-    oss << hex << setfill('0')
-        << setw(8) << data[0] << "-"
-        << setw(4) << ((data[1] >> 16) & 0xFFFF) << "-"
-        << setw(4) << ((data[1] & 0x0FFF) | 0x4000) << "-"
-        << setw(4) << ((data[2] & 0x3FFF) | 0x8000) << "-"
-        << setw(12) << ((uint64_t)data[2] << 32 | data[3]);
-
-    return oss.str();
+    return uuid;
 }
 
 bool likeMatch(const string& str, const string& pattern) {

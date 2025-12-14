@@ -1,8 +1,5 @@
 #include "jsonValue.hpp"
 
-JSONNode::Value::Value() = default;
-JSONNode::Value::~Value() = default;
-
 JSONNode::Value::operator string() const {
     return d_string;
 }
